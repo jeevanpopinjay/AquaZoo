@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Medical History</title>
+	<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+table {
+    border-spacing: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+
+
+<h3>Medical_History Insert</h3>
+  <form class="form-inline" action="phpUpdate.php" id="form">
+  RecordNo:<br>
+  <input class="form-control" type="text" name="RecordNo">
+  <br>
+  Disease:<br>
+  <input class="form-control" type="text" name="Disease">
+  <br>
+   Date:<br>
+  <input class="form-control" type="text" name="Date">
+  <br>
+  DIET:<br>
+  <input class="form-control" type="text" name="DIET">
+  <br>
+   TID:<br>
+  <input class="form-control" type="text" name="TID">
+  <br>
+  AID:<br>
+  <input class="form-control" type="text" name="AID">
+  <br>
+  <button class="btn btn-primary" type = "button"  onclick = "doAJAXstuff(this.form)">Submit</button>
+	<button class="btn btn-danger" type = "reset">Reset</button>
+   <br>
+</form>
+</div>
+
+<p id="thispart"></p>
+<script type = "text/javascript">
+function checkEmpty(thetype){
+    if(thetype.value.toString().trim() == "")
+    {
+        thetype.value = "EMPTY";
+    }
+  }
+
+function doAJAXstuff(theform) {
+	request = new XMLHttpRequest();
+	checkEmpty(theform.RecordNo);
+	checkEmpty(theform.Disease);
+	checkEmpty(theform.Date);
+	checkEmpty(theform.DIET);
+	checkEmpty(theform.TID);
+	checkEmpty(theform.AID);
+
+		request.open("GET","phpUpdate.php?Tablename="+4+"&"+"RecordNo="+theform.RecordNo.value+"&"+"Disease="+theform.Disease.value+"&"+"Date="+theform.Date.value+"&"+"DIET="+theform.DIET.value+"&"+"TID="+theform.TID.value+"&"+"AID="+theform.AID.value);
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback();
+
+	 }
+	request.send();
+}
+
+function doAJAXstuffUpdate(Name) {
+	request = new XMLHttpRequest();
+		var param = Name.split("|");
+		request.open("GET","phpUpdateDB.php?Tablename="+4+"&"+"TID="+param[0]+"&"+"AID="+param[1]);
+
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback1();
+
+	 }
+	request.send();
+}
+
+function doAJAXstuffDelete(Name) {
+	request = new XMLHttpRequest();
+	var param = Name.split("|");
+		request.open("GET","phpDeleteDB.php?Tablename="+4+"&"+"TID="+param[0]+"&"+"AID="+param[1]);
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback2();
+
+	 }
+	request.send();
+
+}
+
+
+function my_callback1() {
+
+	if (request.status == 200) {
+		var lines = request.responseText;
+		var ss= lines.split("|");
+
+		document.getElementById("form").RecordNo.value=ss[0];
+		document.getElementById("form").Disease.value=ss[1];
+		document.getElementById("form").Date.value=ss[2];
+		document.getElementById("form").DIET.value=ss[3];
+		document.getElementById("form").TID.value=ss[4];
+		document.getElementById("form").AID.value=ss[5];
+
+document.getElementById("thispart").style.font = "italic bold 20px arial, serif";
+		//  alert("There wasn't an error, just wanted to let you see how an alert works. Received from the server:\n"+request.responseText);
+	}
+	else if (request.status=404) {
+alert("Server was not found: data returned is :\n"+request.responseText);
+
+	}
+
+
+}
+
+function my_callback2() {
+	//doAJAXstuff(document.getElementById("form"));
+	my_callback();
+
+}
+
+
+function my_callback() {
+
+		if (request.status == 200) {
+
+	document.getElementById("thispart").innerHTML = request.responseText;
+	document.getElementById("thispart").style.font = "italic bold 20px arial, serif";
+			//  alert("There wasn't an error, just wanted to let you see how an alert works. Received from the server:\n"+request.responseText);
+		}
+		else if (request.status=404) {
+	alert("Server was not found: data returned is :\n"+request.responseText);
+
+		}
+
+}
+
+</script>
+
+</body>
+</html>

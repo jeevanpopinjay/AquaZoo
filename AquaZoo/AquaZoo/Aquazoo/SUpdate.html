@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>tables tab</title>
+	
+
+	<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(e) {
+  if (!e.target.matches('.dropbtn')) {
+
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    for (var d = 0; d < dropdowns.length; d++) {
+      var openDropdown = dropdowns[d];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+</script>
+
+
+<h3>Update</h3>
+    <form>
+  SPID:<br>
+  <input type="text" name="AID">
+  <br>
+  Fname:<br>
+  <input type="text" name="Fname">
+  <br>
+   Minit:<br>
+  <input type="text" name="Minit">
+  <br>
+  Lname:<br>
+  <input type="text" name="Lname">
+  <br>
+   Amount:<br>
+  <input type="text" name="Amount">
+  <br>
+  Address:<br>
+  <input type="text" name="Address">
+  <br>
+    StartPeriod:<br>
+  <input type="text" name="StartPeriod">
+  <br>
+   EndPeriod:<br>
+  <input type="text" name="EndPeriod">
+  <br>
+  EmailID:<br>
+  <input type="text" name="EmailID">
+  <br>
+   AID:<br>
+  <input type="text" name="AID">
+  <br>
+  <input type="submit">
+   <br>
+</form>
+</div>
+
+</body>
+</html>

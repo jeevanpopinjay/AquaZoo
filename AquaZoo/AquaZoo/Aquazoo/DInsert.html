@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<title>Description</title>
+	<style>
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.show {display:block;}
+
+table {
+    border-spacing: 5px;
+}
+
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+ <h3>Description Insert</h3>
+  <form class="form-inline" id="form" action="phpUpdate.php">
+  SID:<br>
+  <input class="form-control" type="text" name="SID">
+  <br>
+  Image:<br>
+  <input class="form-control" type="text" name="ImageSrc">
+  <br>
+  Common Name:<br>
+  <input class="form-control" type="text" name="CommonName">
+  <br>
+  Scientific Name:<br>
+  <input class="form-control" type="text" name="ScientificName">
+  <br>
+  Average Life Span:<br>
+  <input class="form-control" type="text" name="AvgLifeSpan">
+  <br>
+  Average Weight:<br>
+  <input class="form-control" type="text" name="AvgWeight">
+  <br>
+  Average Height:<br>
+  <input class="form-control" type="text" name="AvgHeight">
+  <br>
+  Status of Conservation:<br>
+  <select name="StatusOfConservation">
+		<option value="Endangered" name="EN">EN</option>
+		<option value="Extinct" name="EX">EX</option>
+			<option value="Extinct in the wild" name="EW">EW</option>
+			<option value="Critically Endangered" name="CR">CR</option>
+			<option value="Vulnerable" name="VU">VU</option>
+			<option value="Near Threatened" name="NT">NT</option>
+			<option value="Least Concern" name="LC">LC</option>
+			<option value="Data Deficient" name="DD">DD</option>
+			<option value="Not Evaluated" name="NE">NE</option>
+	</select>
+  <br>
+  Habitat:<br>
+  <input class="form-control" type="text" name="Habitat">
+  <br>
+  Type: <br>
+	<select name="Type">
+		<option value="Herbivore" name="Herbivore">Herbivore</option>
+		<option value="Carnivore" name="Carnivore">Carnivore</option>
+		<option value="Omnivore" name="Omnivore">Omnivore</option>
+	</select>
+
+  <br>
+  Classification: <br>
+	<select name="Classification">
+		<option value="Mammals" name="Mammals">Mammals</option>
+		<option value="Birds" name="Birds">Birds</option>
+		<option value="Reptiles" name="Reptiles">Reptiles</option>
+		<option value="Fish" name="Fish">Fish</option>
+		<option value="Amphibians" name="Amphibians">Amphibians</option>
+		</select>
+  <br>
+  Information:<br>
+  <textarea class="form-control" rows="20" cols="50" name="Information"></textarea>
+  <br>
+  <button type = "button" class="btn btn-primary" onclick = "doAJAXstuff(this.form)">Submit</button>
+	<button class="btn btn-danger" type = "reset">Reset</button>
+  <br>
+</form>
+</div>
+<p id="thispart"></p>
+<script type = "text/javascript">
+function checkEmpty(thetype){
+    if(thetype.value.toString().trim() == "")
+    {
+        thetype.value = "EMPTY";
+    }
+  }
+
+function doAJAXstuff(theform) {
+	request = new XMLHttpRequest();
+	checkEmpty(theform.SID);
+	checkEmpty(theform.ImageSrc);
+	checkEmpty(theform.CommonName);
+	checkEmpty(theform.ScientificName);
+	checkEmpty(theform.AvgLifeSpan);
+	checkEmpty(theform.AvgWeight);
+	checkEmpty(theform.AvgHeight);
+	checkEmpty(theform.StatusOfConservation);
+	checkEmpty(theform.Habitat);
+	checkEmpty(theform.Type);
+	checkEmpty(theform.Classification);
+	checkEmpty(theform.Information);
+		request.open("GET","phpUpdate.php?Tablename="+1+"&"+"SID="+theform.SID.value+"&"+"ImageSrc="+theform.ImageSrc.value+"&"+"CommonName="+theform.CommonName.value+"&"+"ScientificName="+theform.ScientificName.value+"&"+"AvgLifeSpan="+theform.AvgLifeSpan.value+"&"+"AvgWeight="+theform.AvgWeight.value+"&"+"AvgHeight="+theform.AvgHeight.value+"&"+"StatusOfConservation="+theform.StatusOfConservation.value+"&"+"Habitat="+theform.Habitat.value+"&"+"Type="+theform.Type.value+"&"+"Classification="+theform.Classification.value+"&"+"Information="+theform.Information.value);
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback();
+
+	 }
+	request.send();
+}
+
+function doAJAXstuffUpdate(Name) {
+	request = new XMLHttpRequest();
+
+		request.open("GET","phpUpdateDB.php?Tablename="+1+"&"+"SID="+Name);
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback1();
+
+	 }
+	request.send();
+}
+
+function doAJAXstuffDelete(Name) {
+	request = new XMLHttpRequest();
+
+		request.open("GET","phpDeleteDB.php?Tablename="+1+"&"+"SID="+Name);
+
+
+	request.onreadystatechange = function () {
+		 if (request.readyState == 4)
+				 my_callback2();
+
+	 }
+	request.send();
+
+}
+
+
+function my_callback1() {
+
+	if (request.status == 200) {
+		var lines = request.responseText;
+		var ss= lines.split("|");
+		document.getElementById("form").SID.value=ss[0];
+		document.getElementById("form").ImageSrc.value=ss[1];
+		document.getElementById("form").CommonName.value=ss[2];
+		document.getElementById("form").ScientificName.value=ss[3];
+		document.getElementById("form").AvgLifeSpan.value=ss[4];
+		document.getElementById("form").AvgWeight.value=ss[5];
+		document.getElementById("form").AvgHeight.value=ss[6];
+		document.getElementById("form").StatusOfConservation.value=ss[7];
+		document.getElementById("form").Habitat.value=ss[8];
+		document.getElementById("form").Type.value=ss[9];
+		document.getElementById("form").Classification.value=ss[10];
+		document.getElementById("form").Information.value=ss[11];
+
+document.getElementById("thispart").style.font = "italic bold 20px arial, serif";
+		//  alert("There wasn't an error, just wanted to let you see how an alert works. Received from the server:\n"+request.responseText);
+	}
+	else if (request.status=404) {
+alert("Server was not found: data returned is :\n"+request.responseText);
+
+	}
+
+
+}
+
+function my_callback2() {
+	//doAJAXstuff(document.getElementById("form"));
+	my_callback();
+
+}
+
+
+function my_callback() {
+
+		if (request.status == 200) {
+
+	document.getElementById("thispart").innerHTML = request.responseText;
+	document.getElementById("thispart").style.font = "italic bold 20px arial, serif";
+			//  alert("There wasn't an error, just wanted to let you see how an alert works. Received from the server:\n"+request.responseText);
+		}
+		else if (request.status=404) {
+	alert("Server was not found: data returned is :\n"+request.responseText);
+
+		}
+
+}
+
+</script>
+
+</body>
+</html>
